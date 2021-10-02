@@ -7,10 +7,10 @@ from blog import models, schemas
 from blog.database import get_db_session
 from blog.hashing import Hash
 
-router = APIRouter()
+router = APIRouter(prefix="/user", tags=["Users"])
 
 
-@router.post("/user", response_model=schemas.EUUser, tags=["users"])
+@router.post("/", response_model=schemas.EUUser)
 def user_post(request: schemas.User, db: Session = Depends(get_db_session)):
     hashed_password = Hash.bcrypt(request.password)
     new_user = models.User(**{**request.dict(), "password": hashed_password})
@@ -26,7 +26,7 @@ def user_post(request: schemas.User, db: Session = Depends(get_db_session)):
     return new_user
 
 
-@router.get("/user/{id_}", response_model=schemas.EUUser, tags=["users"])
+@router.get("/{id_}", response_model=schemas.EUUser)
 def user_get(id_: int, db: Session = Depends(get_db_session)):
     if user := db.query(models.User).filter(models.User.id == id_).first():
         return user
