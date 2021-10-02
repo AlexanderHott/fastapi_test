@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.exceptions import HTTPException
-from sqlalchemy.orm.session import Session, sessionmaker
+from sqlalchemy.orm.session import Session
 from starlette.responses import JSONResponse
 
 from blog import models, schemas
-from blog.database import SessionLocal, get_db_session
+from blog.database import get_db_session
 
 router = APIRouter()
 
